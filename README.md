@@ -43,12 +43,18 @@ A minimal front end is available under `frontend/` and uses `fetch()` to call th
 - `frontend/styles.css` – styling for the page
 - `frontend/services/apiService.js` – service layer that manages API calls and response/error handling
 - `frontend/app.js` – UI logic, loading state, and action handling
+- `frontend/components/` – render helpers for table rows and UI controls
 
 To run the app with the frontend:
 ```bash
 python3 -m app.server
 ```
 Then open `http://127.0.0.1:8000` in your browser.
+
+## Documentation
+- `code_explanation.md` provides a plain-text overview of the project.
+- `frontend_screenshot.png` shows the running UI state.
+- `code_explanation.docx` is also available as a Word document, but the Markdown file is easiest to open in the editor.
 
 ## Run tests
 ```bash

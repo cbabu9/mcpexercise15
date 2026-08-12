@@ -23,12 +23,20 @@ const studentsTableBody = document.querySelector("#students-table tbody");
 const coursesTableBody = document.querySelector("#courses-table tbody");
 const enrollmentsTableBody = document.querySelector("#enrollments-table tbody");
 
+let students = [];
+let courses = [];
+let enrollments = [];
 let loadingCounter = 0;
 
 function setStatus(message, options = {}) {
   const { isError = false, hidden = false } = options;
   statusEl.textContent = message;
   statusEl.className = hidden ? "hidden" : isError ? "error" : "";
+  if (isError) {
+    statusEl.dataset.error = "true";
+  } else {
+    delete statusEl.dataset.error;
+  }
 }
 
 function beginLoading() {
@@ -40,7 +48,7 @@ function beginLoading() {
 
 function endLoading() {
   loadingCounter = Math.max(0, loadingCounter - 1);
-  if (loadingCounter === 0) {
+  if (loadingCounter === 0 && statusEl.dataset.error !== "true") {
     setStatus("Ready", { hidden: false });
   }
 }
@@ -54,10 +62,14 @@ async function loadAllData() {
       api.listEnrollments(),
     ]);
 
-    renderStudents(studentsResponse.students || []);
-    renderCourses(coursesResponse.courses || []);
-    renderEnrollments(enrollmentsResponse.enrollments || [], studentsResponse.students || [], coursesResponse.courses || []);
-    populateEnrollmentOptions(studentsResponse.students || [], coursesResponse.courses || []);
+    students = studentsResponse.students || [];
+    courses = coursesResponse.courses || [];
+    enrollments = enrollmentsResponse.enrollments || [];
+
+    renderStudents(students);
+    renderCourses(courses);
+    renderEnrollments(enrollments, students, courses);
+    populateEnrollmentOptions(students, courses);
     setStatus("Ready");
   } catch (error) {
     setStatus(error.message || "Unable to load data", { isError: true });
@@ -203,7 +215,12 @@ async function promptUpdateCourse(course) {
 }
 
 async function confirmDeleteStudent(studentId) {
-  if (!window.confirm("Delete this student?")) {
+  const relatedEnrollments = enrollments.filter((item) => item.student_id === studentId);
+  const message = relatedEnrollments.length
+    ? `Delete this student? ${relatedEnrollments.length} related enrollment(s) will also be removed.`
+    : "Delete this student?";
+
+  if (!window.confirm(message)) {
     return;
   }
 
@@ -220,7 +237,12 @@ async function confirmDeleteStudent(studentId) {
 }
 
 async function confirmDeleteCourse(courseId) {
-  if (!window.confirm("Delete this course?")) {
+  const relatedEnrollments = enrollments.filter((item) => item.course_id === courseId);
+  const message = relatedEnrollments.length
+    ? `Delete this course? ${relatedEnrollments.length} related enrollment(s) will also be removed.`
+    : "Delete this course?";
+
+  if (!window.confirm(message)) {
     return;
   }
 

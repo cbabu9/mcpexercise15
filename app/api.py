@@ -113,5 +113,8 @@ class StudentApi:
         return {"enrollments": [{"id": item.id, "student_id": item.student_id, "course_id": item.course_id} for item in enrollments]}
 
     def delete_enrollment(self, enrollment_id: int) -> Dict[str, Any]:
+        enrollment = self.enrollment_service.enrollment_repository.get_by_id(enrollment_id)
+        if enrollment is None:
+            raise ApiError("Enrollment not found", 404)
         self.enrollment_service.enrollment_repository.delete(enrollment_id)
         return {"message": "Enrollment deleted"}

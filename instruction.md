@@ -12,6 +12,14 @@
 - Keep database access logic inside repositories.
 - Use models to represent domain entities and keep them simple data containers.
 - Avoid mixing persistence logic into controllers or services.
+- Serve frontend static assets through the Python server when adding a web UI.
+- Keep API routing and UI rendering concerns separated.
+
+## Frontend guidelines
+- Place static UI files in `frontend/`.
+- Use a service layer for API calls and to centralize error handling.
+- Keep DOM rendering logic in separate helper modules when possible.
+- Provide user feedback for loading and error states.
 
 ## Coding standards
 - Use Python 3 and follow PEP 8 style conventions.

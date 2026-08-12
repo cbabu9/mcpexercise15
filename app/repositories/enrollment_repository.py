@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from app.models.enrollment import Enrollment
 from app.repositories.base_repository import BaseRepository
@@ -12,6 +12,13 @@ class EnrollmentRepository(BaseRepository):
         )
         self._connect().commit()
         return Enrollment(id=cursor.lastrowid, student_id=student_id, course_id=course_id)
+
+    def get_by_id(self, enrollment_id: int) -> Optional[Enrollment]:
+        row = self._connect().execute(
+            "SELECT id, student_id, course_id FROM enrollments WHERE id = ?",
+            (enrollment_id,),
+        ).fetchone()
+        return Enrollment(id=row[0], student_id=row[1], course_id=row[2]) if row else None
 
     def list_all(self) -> List[Enrollment]:
         rows = self._connect().execute("SELECT id, student_id, course_id FROM enrollments ORDER BY id").fetchall()
