@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Database UI</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Student Database UI</h1>
+  </header>
+
+  <main>
+    <section id="status" aria-live="polite"></section>
+
+    <section class="panel card-grid">
+      <article class="card">
+        <h2>Students</h2>
+        <form id="create-student-form" class="form-row">
+          <input type="text" id="student-name" placeholder="Student name" required />
+          <button type="submit">Add Student</button>
+        </form>
+        <div class="table-wrapper">
+          <table id="students-table">
+            <thead>
+              <tr><th>ID</th><th>Name</th><th>Actions</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Courses</h2>
+        <form id="create-course-form" class="form-row">
+          <input type="text" id="course-title" placeholder="Course title" required />
+          <button type="submit">Add Course</button>
+        </form>
+        <div class="table-wrapper">
+          <table id="courses-table">
+            <thead>
+              <tr><th>ID</th><th>Title</th><th>Actions</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Enrollments</h2>
+        <form id="create-enrollment-form" class="form-row">
+          <select id="enrollment-student" required>
+            <option value="">Student</option>
+          </select>
+          <select id="enrollment-course" required>
+            <option value="">Course</option>
+          </select>
+          <button type="submit">Enroll</button>
+        </form>
+        <div class="table-wrapper">
+          <table id="enrollments-table">
+            <thead>
+              <tr><th>ID</th><th>Student</th><th>Course</th><th>Actions</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

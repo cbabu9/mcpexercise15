@@ -36,6 +36,20 @@ print(api.create_student({"name": "Ava"}))
 print(api.list_students())
 ```
 
+## Frontend UI
+A minimal front end is available under `frontend/` and uses `fetch()` to call the backend APIs through a lightweight static server.
+
+- `frontend/index.html` – UI layout and forms
+- `frontend/styles.css` – styling for the page
+- `frontend/services/apiService.js` – service layer that manages API calls and response/error handling
+- `frontend/app.js` – UI logic, loading state, and action handling
+
+To run the app with the frontend:
+```bash
+python3 -m app.server
+```
+Then open `http://127.0.0.1:8000` in your browser.
+
 ## Run tests
 ```bash
 python3 -m unittest discover -s tests -v
